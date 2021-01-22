@@ -3,7 +3,7 @@ package com.company;
 import javax.swing.*;
 
 public class Gui {
-    String operation = "0";
+    String operation = "";
     double second = 0;
     double result = 0;
     boolean operationPress = false;
@@ -106,11 +106,7 @@ public class Gui {
 
     void actionEquals() {
 
-
-        if (operation.equals("0")) {
-            result = Double.parseDouble(CalcScreen.getText());
-
-        } else if (equalsPress) {
+        if (equalsPress) {
 
             result = Calculations.calculation(result, operation, second);
         } else {
@@ -129,7 +125,7 @@ public class Gui {
 
     void actionCancel() {
         CalcScreen.setText("0.0");
-        operation = "0";
+        operation = "";
         second = 0;
         result = 0;
         operationPress = false;

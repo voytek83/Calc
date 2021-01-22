@@ -10,6 +10,7 @@ public class Calculations {
             case "-" -> a - b;
             case "*" -> a * b;
             case "/" -> a / b;
+            case "" -> a;
             default -> throw new IllegalStateException("Unexpected value: "+dz);
         };
     }
