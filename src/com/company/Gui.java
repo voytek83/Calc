@@ -7,10 +7,11 @@ public class Gui {
     double first = 0;
     double second = 0;
     double result = 0;
-    boolean operationPress = true;
-    boolean operationPress2 = true;
+    boolean operationPress = false;
+    boolean equalsPress = false;
+    boolean press = false;
     private JPanel panel1;
-    private JTextPane CalcScreen;
+    private JFormattedTextField CalcScreen;
     private JButton a7Button;
     private JButton a8Button;
     private JButton a9Button;
@@ -28,24 +29,24 @@ public class Gui {
     private JButton buttonMinus;
     private JButton buttonPlus;
     private JButton cButton;
-    private JTextArea tFirst;
-    private JTextArea tOperator;
-    private JTextArea tSecond;
-    private JTextArea teResult;
+    private JFormattedTextField tFirst;
+    private JFormattedTextField tOperator;
+    private JFormattedTextField tSecond;
+
 
     public Gui() {
 
-        a0Button.addActionListener(e -> actionButton("0"));
-        a1Button.addActionListener(e -> actionButton("1"));
-        a2Button.addActionListener(e -> actionButton("2"));
-        a3Button.addActionListener(e -> actionButton("3"));
-        a4Button.addActionListener(e -> actionButton("4"));
-        a5Button.addActionListener(e -> actionButton("5"));
-        a6Button.addActionListener(e -> actionButton("6"));
-        a7Button.addActionListener(e -> actionButton("7"));
-        a8Button.addActionListener(e -> actionButton("8"));
-        a9Button.addActionListener(e -> actionButton("9"));
-        buttonComma.addActionListener(e -> actionButton("."));
+        a0Button.addActionListener(e -> actionNrButton("0"));
+        a1Button.addActionListener(e -> actionNrButton("1"));
+        a2Button.addActionListener(e -> actionNrButton("2"));
+        a3Button.addActionListener(e -> actionNrButton("3"));
+        a4Button.addActionListener(e -> actionNrButton("4"));
+        a5Button.addActionListener(e -> actionNrButton("5"));
+        a6Button.addActionListener(e -> actionNrButton("6"));
+        a7Button.addActionListener(e -> actionNrButton("7"));
+        a8Button.addActionListener(e -> actionNrButton("8"));
+        a9Button.addActionListener(e -> actionNrButton("9"));
+        buttonComma.addActionListener(e -> actionNrButton("."));
 
         cButton.addActionListener(e -> actionCancel());
 
@@ -60,7 +61,7 @@ public class Gui {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Kalkulator");
         frame.setContentPane(new Gui().panel1);
-        frame.setDefaultCloseOperation(3);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.pack();
@@ -68,50 +69,62 @@ public class Gui {
 
     }
 
-    void actionButton(String nr) {
+    void actionNrButton(String nr) {
 
-        if (operationPress) {
-            CalcScreen.setText(nr);
-        } else {
+        if (press) {
             String value = CalcScreen.getText();
             CalcScreen.setText(value + nr);
+        } else {
+            CalcScreen.setText(nr);
         }
+
+        press = true;
         operationPress = false;
+        equalsPress = false;
         showData();
     }
 
     void actionOperation(String op) {
 
-        if (operationPress2) {
-            first = Double.parseDouble(CalcScreen.getText());
-            second = Double.parseDouble(CalcScreen.getText());
+        operation = op;
+        if (result == 0) {
+            result = Double.parseDouble(CalcScreen.getText());
         }
 
-        operation = op;
-        operationPress = true;
-        operationPress2 = false;
+        if (operationPress = false) {
 
+            second = Double.parseDouble(CalcScreen.getText());
+            result = Calculations.calculation(result, operation, second);
+            CalcScreen.setText(Double.toString(result));
+        }
+
+        equalsPress = false;
+        press = false;
+        operationPress = true;
         showData();
 
     }
 
     void actionEquals() {
-        second = Double.parseDouble(CalcScreen.getText());
-        if (result != 0) {
-            first = result;
-        }
+
 
         if (operation.equals("0")) {
+            result = Double.parseDouble(CalcScreen.getText());
 
+        } else if (equalsPress) {
+
+            result = Calculations.calculation(result, operation, second);
         } else {
-
-            result = Calculations.calculation(first, operation, second);
-            CalcScreen.setText(Double.toString(result));
+            second = Double.parseDouble(CalcScreen.getText());
+            result = Calculations.calculation(result, operation, second);
         }
 
+        CalcScreen.setText(Double.toString(result));
         showData();
 
-        operationPress = true;
+        press = false;
+        operationPress = false;
+        equalsPress = true;
 
     }
 
@@ -121,17 +134,17 @@ public class Gui {
         first = 0;
         second = 0;
         result = 0;
-        operationPress = true;
-        operationPress2 = true;
+        operationPress = false;
+        press = false;
+        equalsPress = false;
         showData();
 
     }
 
     void showData() {
-        tFirst.setText(Double.toString(first));
+        tFirst.setText(Double.toString(result));
         tOperator.setText(operation);
         tSecond.setText(Double.toString(second));
-        teResult.setText(Double.toString(result));
     }
 
 
