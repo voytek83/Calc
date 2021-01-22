@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Gui {
     String operation = "0";
-    double first = 0;
     double second = 0;
     double result = 0;
     boolean operationPress = false;
@@ -131,7 +130,6 @@ public class Gui {
     void actionCancel() {
         CalcScreen.setText("0.0");
         operation = "0";
-        first = 0;
         second = 0;
         result = 0;
         operationPress = false;
